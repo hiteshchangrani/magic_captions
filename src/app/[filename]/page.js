@@ -29,7 +29,6 @@ export default function FilePage({ params: paramsPromise }) {
                 setTimeout(getTranscription, 3000);
             } else {
                 setIsTranscribing(false);
-
                 setAwsTranscriptionItems(
                     clearTranscriptionItems(transcription.results.items)
                 );

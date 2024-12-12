@@ -1,6 +1,14 @@
 import {PutObjectCommand, S3Client} from "@aws-sdk/client-s3";
 import uniqid from 'uniqid'
 
+
+export async function GET(req)
+{
+  return Response.json({
+    "Hello":"devesh"
+  })
+}
+
 export async function POST(req) {
   const formData = await req.formData();
   const file = await formData.get('file');
