@@ -1,6 +1,6 @@
 import localFont from "next/font/local";
 import "./globals.css";
-import SparklesIcon from "./components/SparklesIcon";
+import SparklesIcon from "../components/SparklesIcon";
 import Link from "next/link";
 
 const geistSans = localFont({

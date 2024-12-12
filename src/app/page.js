@@ -1,7 +1,7 @@
 'use client'
-import DemoSection from "./components/DemoSection";
-import PageHeaders from "./components/PageHeaders";
-import UploadForm from "./components/UploadForm";
+import DemoSection from "../components/DemoSection";
+import PageHeaders from "../components/PageHeaders";
+import UploadForm from "../components/UploadForm";
 
 
 export default function Home() {
