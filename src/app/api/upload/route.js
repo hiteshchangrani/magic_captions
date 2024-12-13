@@ -1,25 +1,12 @@
-import {PutObjectCommand, S3Client} from "@aws-sdk/client-s3";
-import uniqid from 'uniqid'
-
-
-export async function GET(req)
-{
-  return Response.json({
-    "Hello":"devesh"
-  })
-}
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import uniqid from "uniqid";
 
 export async function POST(req) {
-  const formData = await req.formData();
-  const file = await formData.get('file');
-  const {name, type} = file;
-  const data = await file.arrayBuffer();
-
-  console.log(file);
-  
+  const { name, type } = await req.json();
 
   const s3client = new S3Client({
-    region: 'eu-north-1',
+    region: "eu-north-1",
     credentials: {
       accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
       secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
@@ -27,21 +14,19 @@ export async function POST(req) {
   });
 
   const id = uniqid();
-  const ext = name.split('.').slice(-1)[0];
+  const ext = name.split(".").slice(-1)[0];
   const newName = `${id}.${ext}`;
-  console.log(newName);
-  
 
-
-  const uploadCommand = new PutObjectCommand({
+  const command = new PutObjectCommand({
     Bucket: process.env.NEXT_PUBLIC_BUCKET_NAME,
-    Body: data,
-    ACL: 'public-read',
-    ContentType: type,
     Key: newName,
+    ContentType: type,
+    ACL: "public-read",
   });
 
-  await s3client.send(uploadCommand);
+  const presignedUrl = await getSignedUrl(s3client, command, {
+    expiresIn: 3600, // URL valid for 1 hour
+  });
 
-  return Response.json({name,ext,newName,id});
+  return Response.json({ presignedUrl, newName });
 }
