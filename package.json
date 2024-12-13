@@ -12,6 +12,8 @@
     "@aws-sdk/client-s3": "^3.705.0",
     "@aws-sdk/client-transcribe": "^3.699.0",
     "@aws-sdk/s3-request-presigner": "^3.709.0",
+    "@ffmpeg/ffmpeg": "^0.12.10",
+    "@ffmpeg/util": "^0.12.1",
     "aws-sdk": "^2.1692.0",
     "axios": "^1.7.9",
     "next": "15.0.3",

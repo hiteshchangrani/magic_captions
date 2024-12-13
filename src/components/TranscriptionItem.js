@@ -4,7 +4,9 @@ export default function TranscriptionItem ({
     handleEndTimeChange,
     handleContentChange
 }) {
-
+    if(!item) {
+        return'';
+    }
     return (
         <div className="my-1 grid grid-cols-3 gap-1 items-center">
                 <input  type="text"
