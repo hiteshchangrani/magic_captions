@@ -5,11 +5,13 @@ import { FFmpeg } from "@ffmpeg/ffmpeg";
 import { transcriptionItemsToSrt } from "@/libs/awsTranscriptionHelpers";
 import roboto from './../fonts/Roboto-Regular.ttf'
 import robotoBold from './../fonts/Roboto-Bold.ttf'
+import { CaptionHeightSlider } from "./CaptionHeightSlider";
 
 export default function ResultVideo({ filename, transcriptionItems }) {
     const [primaryColor, setPrimaryColor] = useState('#FFFFFF');
     const [outlineColor, setOutlineColor] = useState('#000000');
     const [progress, setProgress] = useState(1);
+    const [captionHeight, setCaptionHeight] = useState(50);
     const videoUrl = "https://project-magic-captions.s3.amazonaws.com/" + filename;
     const [loaded, setLoaded] = useState(false);
     const ffmpegRef = useRef(new FFmpeg());
@@ -66,8 +68,8 @@ export default function ResultVideo({ filename, transcriptionItems }) {
         await ffmpeg.exec([
             '-i', filename,
             '-preset', 'ultrafast',
-            '-to', '00:00:05',
-            '-vf', `subtitles=subs.srt:fontsdir=/tmp:force_style='Fontname=Roboto Bold,FontSize=30,MarginV=60,PrimaryColour=${toFFmpegColor(primaryColor)},OutlineColour=${toFFmpegColor(outlineColor)}'`,
+            // '-to', '00:00:05',
+            '-vf', `subtitles=subs.srt:fontsdir=/tmp:force_style='Fontname=Roboto Bold,FontSize=30,MarginV=${captionHeight},PrimaryColour=${toFFmpegColor(primaryColor)},OutlineColour=${toFFmpegColor(outlineColor)}'`,
             'output.mp4']);
         const data = await ffmpeg.readFile('output.mp4');
         videoRef.current.src =
@@ -98,7 +100,7 @@ export default function ResultVideo({ filename, transcriptionItems }) {
                     value={outlineColor}
                     onChange={e => setOutlineColor(e.target.value)} />
             </div>
-            <div className="rounded-xl overflow-hidden relative">
+            <div className="rounded-xl overflow-hidden relative mb-4">
                 {progress && progress < 1 && (
                     <div className="absolute inset-0 bg-black/80 flex items-center">
                         <div className="w-full text-center">
@@ -114,11 +116,29 @@ export default function ResultVideo({ filename, transcriptionItems }) {
                     </div>
                 )}
                 <video
+                    className=""
                     data-video={0}
                     ref={videoRef}
                     controls>
                 </video>
             </div>
+            <div className="flex flex-col items-center p-4">
+                <label className="mb-4 text-lg font-semibold" htmlFor="slider">Select Height of Captions:</label>
+                <br />
+                <input
+                    className="-full md:w-1/2 h-2 bg-gray-200 rounded-lg
+                    appearance-none cursor-pointer
+                    accent-yellow-700"
+                    type="range"
+                    min="0"
+                    max="150"
+                    value={captionHeight}
+                    onChange={e => setCaptionHeight(e.target.value)} // Listen to changes
+                    style={{ width: "288px" }}
+                />
+                <p className="mt-4 text-lg">Height: <b>{captionHeight}</b></p>
+            </div>
+
         </>
     )
 }
