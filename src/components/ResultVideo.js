@@ -82,6 +82,8 @@ export default function ResultVideo({ filename, transcriptionItems }) {
     return (
         <>
             <div className="mb-4">
+                <h2 className="text-white">Click apply to apply captions to your video!</h2>
+                <br/>
                 <button
                     onClick={transcode}
                     className="bg-green-600 py-2 px-6 rounded-full inline-flex gap-2 border-2 border-purple-700/50 cursor-pointer">
@@ -96,10 +98,13 @@ export default function ResultVideo({ filename, transcriptionItems }) {
                     value={primaryColor}
                     onChange={e => setPrimaryColor(e.target.value)} />
                 <br />
-                Outline color:<input type="color"
+                Outline color:<input 
+                    type="color"
                     value={outlineColor}
                     onChange={e => setOutlineColor(e.target.value)} />
+                
             </div>
+            <br/>
             <div className="rounded-xl overflow-hidden relative mb-4">
                 {progress && progress < 1 && (
                     <div className="absolute inset-0 bg-black/80 flex items-center">

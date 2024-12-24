@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
           <header className="flex justify-between my-2 sm:my-8">
         <Link className="flex gap-1" href="/">
           <SparklesIcon/>
-          <span>EpicCaptions</span>
+          <span>MagicCaptions</span>
         </Link>
         <nav className="flex items-center gap-2 sm:gap-6 text-white/90 text-md sm:text-lg">
           <Link href="/">Home</Link>
